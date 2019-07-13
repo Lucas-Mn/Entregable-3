@@ -5,21 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.entregable3.DEBUG;
 import com.example.entregable3.R;
-import com.example.entregable3.controller.ArtistController;
-import com.example.entregable3.controller.StorageController;
-import com.example.entregable3.model.dao.ArtistDAO;
-import com.example.entregable3.model.pojo.Artist;
-import com.example.entregable3.model.pojo.ArtistContainer;
+import com.example.entregable3.model.dao.ArtistTableDAO;
+import com.example.entregable3.model.pojo.ArtistTable;
 import com.example.entregable3.model.pojo.Obra;
-import com.example.entregable3.retrofit.ResultListener;
+import com.example.entregable3.room.MyRoomDatabase;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 implements AdapterObras.Listener
@@ -40,6 +41,14 @@ implements AdapterObras.Listener
                 return false;
             }
         });
+
+//        //region DEBUG
+//        MyRoomDatabase database = Room.databaseBuilder(this, MyRoomDatabase.class, "database")
+//                .allowMainThreadQueries().build();
+//        ArtistTableDAO artistTableDAO = database.getArtistDAO();
+//        artistTableDAO.clearTable();
+//        database.getObraTableDAO().clearTable();
+//        //endregion
 
         pegarFragment(new FragmentList());
     }

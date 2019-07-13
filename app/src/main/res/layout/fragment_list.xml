@@ -5,9 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".view.FragmentList">
 
+    <ImageView
+        android:id="@+id/frag_list_background_icon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/frag_list_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+
 
 </FrameLayout>

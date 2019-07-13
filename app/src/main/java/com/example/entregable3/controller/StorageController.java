@@ -18,6 +18,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StorageController {
 
     FirebaseStorage storage;
@@ -37,6 +40,24 @@ public class StorageController {
             @Override
             public void onSuccess(Uri uri) {
                 listener.finish(uri.toString());
+            }
+        });
+    }
+
+    public static void getImageByteArray(String path, final FoundListener<byte[]> listener)
+    {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference reference = storage.getReference(path);
+        final long size = 512*512;
+        reference.getBytes(size).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                listener.onFound(bytes);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                DEBUG.LOG("getImageByteArray fail: " + e.getMessage());
             }
         });
     }
@@ -73,6 +94,33 @@ public class StorageController {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 DEBUG.LOG("getArtistDetails cancelled: " + databaseError.getMessage());
+            }
+        });
+    }
+
+    public static void getAllArtistDetails(final FoundListener<List<ArtistDetails>> listener)
+    {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference(PATH_ARTISTS);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()==null)
+                    listener.onNotFound();
+                else
+                {
+                    List<ArtistDetails> artists = new ArrayList<>();
+                    for(DataSnapshot shot : dataSnapshot.getChildren())
+                    {
+                        artists.add(shot.getValue(ArtistDetails.class));
+                    }
+                    listener.onFound(artists);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                DEBUG.LOG("getAllArtistDetails cancelled: " + databaseError.getMessage());
             }
         });
     }

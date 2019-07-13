@@ -10,10 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.entregable3.R;
-import com.example.entregable3.model.dao.ObraDAO;
+import com.example.entregable3.controller.ObraController;
 import com.example.entregable3.model.pojo.Obra;
 import com.example.entregable3.model.pojo.ObraContainer;
 import com.example.entregable3.retrofit.ResultListener;
@@ -40,11 +39,10 @@ public class FragmentList extends Fragment {
         recycler = view.findViewById(R.id.frag_list_recycler);
 
         recycler.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        adapter = new AdapterObras();
+        adapter = new AdapterObras((AdapterObras.Listener) getActivity());
         recycler.setAdapter(adapter);
 
-        ObraDAO dao = new ObraDAO();
-        dao.getObras(new ResultListener<ObraContainer>() {
+        ObraController.getObras(new ResultListener<ObraContainer>() {
             @Override
             public void finish(ObraContainer result) {
                 setList(result.getObras());

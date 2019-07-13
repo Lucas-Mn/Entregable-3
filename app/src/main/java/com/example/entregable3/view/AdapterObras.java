@@ -1,6 +1,5 @@
 package com.example.entregable3.view;
 
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +9,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.entregable3.R;
+import com.example.entregable3.controller.StorageController;
 import com.example.entregable3.model.pojo.Obra;
+import com.example.entregable3.util.StringListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AdapterObras extends RecyclerView.Adapter {
 
     List<Obra> obras;
+    AdapterObras.Listener listener;
+    //guardamos las URLs una vez encontradas para cargarlas directamente
+    HashMap<String, String> imgUrls;
 
     public AdapterObras(List<Obra> obras)
     {
@@ -26,8 +32,8 @@ public class AdapterObras extends RecyclerView.Adapter {
         this.obras = obras;
     }
 
-    public AdapterObras()
-    { super(); obras = new ArrayList<>(); }
+    public AdapterObras(AdapterObras.Listener listener)
+    { super(); obras = new ArrayList<>(); this.listener = listener; imgUrls = new HashMap<>();}
 
     public void setList(List<Obra> obras)
     {
@@ -46,9 +52,26 @@ public class AdapterObras extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
         ViewHolderObra vh = (ViewHolderObra) holder;
         vh.bind(obras.get(position));
+        vh.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onClick(obras.get(position));
+            }
+        });
+        //sólo sacar la URL del storage si es necesario
+        if(imgUrls.containsKey(obras.get(position).getImage()))
+            ((ViewHolderObra) holder).loadImage(imgUrls.get(obras.get(position).getImage()));
+        else
+            StorageController.getImageDownloadUrl(obras.get(position).getImage(), new StringListener() {
+                @Override
+                public void finish(String s) {
+                    ((ViewHolderObra) holder).loadImage(s);
+                    imgUrls.put(obras.get(position).getImage(), s);
+                }
+            });
     }
 
     @Override
@@ -72,6 +95,16 @@ public class AdapterObras extends RecyclerView.Adapter {
         {
             lblTitle.setText(obra.getName());
         }
+
+        public void loadImage(String url)
+        {
+            Glide.with(itemView).load(url).into(img);
+        }
+    }
+
+    public interface Listener
+    {
+        void onClick(Obra obra);
     }
 
 }

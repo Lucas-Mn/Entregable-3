@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MyRetrofit {
 
     protected Retrofit retrofit;
-    protected ObraService service;
+    protected MyService service;
 
     public MyRetrofit()
     {
@@ -15,6 +15,6 @@ public class MyRetrofit {
         Retrofit.Builder builder =new Retrofit.Builder().baseUrl(RETRO.baseURL)
                 .client(client.build()).addConverterFactory(GsonConverterFactory.create());
         retrofit = builder.build();
-        service = retrofit.create(ObraService.class);
+        service = retrofit.create(MyService.class);
     }
 }

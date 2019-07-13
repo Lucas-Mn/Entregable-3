@@ -94,12 +94,12 @@ public class ActivityLogin extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(DEBUG.TAG, "signInWithCredential:success");
+                            DEBUG.LOG( "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.d(DEBUG.TAG, "signInWithCredential:failure", task.getException());
+                            DEBUG.LOG( "signInWithCredential:failure" + task.getException());
                             updateUI(null);
                         }
 

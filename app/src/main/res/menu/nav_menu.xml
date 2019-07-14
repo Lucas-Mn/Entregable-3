@@ -2,8 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/nav_item_obras"
+        android:title="Paints"
+        />
+
+    <item
+        android:id="@+id/nav_item_chat"
+        android:title="Chat"
+        />
+
+    <item
         android:id="@+id/nav_item_logout"
-        android:title="Cerrar Sesión"
+        android:title="Log Out"
         />
 
 </menu>

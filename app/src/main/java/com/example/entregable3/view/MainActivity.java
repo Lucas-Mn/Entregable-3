@@ -65,6 +65,14 @@ implements AdapterObras.Listener
     {
         switch(id)
         {
+            case R.id.nav_item_obras:
+                pegarFragment(new FragmentList());
+                break;
+
+            case R.id.nav_item_chat:
+                pegarFragment(new FragmentChat());
+                break;
+
             case R.id.nav_item_logout:
                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
                 mAuth.signOut();

@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cell_obra"
-    app:cardElevation="8dp"
-    app:cardCornerRadius="3dp">
+    android:layout_margin="5dp"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="6dp"
+    android:id="@+id/cell_obra">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,6 +23,7 @@
         <TextView
             android:id="@+id/cell_obra_title"
             android:text="PAINTING TITLE"
+            android:textColor="@color/textCardTitle"
             android:gravity="center"
             android:layout_toRightOf="@+id/cell_obra_img"
             android:layout_weight="1"

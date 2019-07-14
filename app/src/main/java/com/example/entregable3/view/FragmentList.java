@@ -98,10 +98,9 @@ public class FragmentList extends Fragment {
 
             @Override
             public void onCancelled() {
-                if(!getObrasFromRoom())
+                if (!getObrasFromRoom()) {
                     Toast.makeText(getContext(), "No internet", Toast.LENGTH_LONG).show();
-                    imgBackgroundIcon.setImageResource(R.drawable.ic_no_internet);}
-        });
+                    imgBackgroundIcon.setImageResource(R.drawable.ic_no_internet); }}});
     }
 
     private void foundArtists(List<ArtistDetails> result)
